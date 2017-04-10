@@ -16,7 +16,7 @@ During the project SAPHIR several FORTRAN routines have been written to generate
 2.) Specifications of the Daisy weather file format as it is needed for the routines
 
 There are a few restrictions (in addition to Daisy file format specifications) concerning the format of Daisy weather files for manipulating them with the routines as listed below:
-- General: filenames as well as everything within the file should not consist of 'ä', 'ö', 'ü' etc.
+- General: filenames as well as everything within the file should not consist of 'Ã¤', 'Ã¶', 'Ã¼' etc.
 - Header: the only valid separator in the header is a whitespace and not a tab
 - Header: 'Elevation' is a floating point number given in [m]
 - Header: 'Longitude' is a floating point number given in [decimal degrees]
@@ -50,11 +50,20 @@ year	month	mday	hour	dgC	%	m/s	mm/d	W/m^2
 
 
 3.) List of available routines
+- dwf_precipitation_correction.exe <- applies the Richter correction to precipitation in Daisy weather files
 - generate_dwf_files <- generates an initial dwf-file from e.g. a textfile with data
 - daisy_calc_daily_values  <- calculates daily values from hourly values
 
 
 4.) Description of routines
+
+1.0) dwf_precipitation_correction.exe
+Applies the Richter correction to Daisy Weather files. Calling the routine is done as
+dwf_precipitation_correction.exe path_to_data daisy_file_in daisy_file_out region [level_of_protection]
+
+If level_of_protection is omitted, it is set to 1.
+
+
 
 1.1) generate_dwf_file
 generates a dwf file from e.g. a textfile. Because format of the input files may vary, this is just a framework to be used by a more or less advanced Fortran programmer to write a code tailored to the input files. Nevertheless an initial makefile is provided.
