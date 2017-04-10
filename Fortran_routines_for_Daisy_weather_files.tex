@@ -1,0 +1,65 @@
+Fortran routines for Daisy weather files
+
+written by K.Barfus
+
+Content
+1.) Introduction
+2.) Specifications of the Daisy weather file format as it is needed for the routines
+3.) List of available routines
+4.) Description of individual routines
+
+
+1.) Introduction
+
+During the project SAPHIR several FORTRAN routines have been written to generate and manipulate Daisy weather files. All routines are written in Fortran 90 and so should be easily implemented on any machine where a Fortran compiler is available. Some quite simple makefiles are also available easily to modify for each machine.
+
+2.) Specifications of the Daisy weather file format as it is needed for the routines
+
+There are a few restrictions (in addition to Daisy file format specifications) concerning the format of Daisy weather files for manipulating them with the routines as listed below:
+- General: filenames as well as everything within the file should not consist of 'ä', 'ö', 'ü' etc.
+- Header: the only valid separator in the header is a whitespace and not a tab
+- Header: 'Elevation' is a floating point number given in [m]
+- Header: 'Longitude' is a floating point number given in [decimal degrees]
+- Header: 'Latitude' is a floating point number given in [decimal degrees]
+- Header: 'ScreenHeight' is an integer number given in [m]
+- Header: 'TAverage' is a floating point number given in [dgC]
+- Header: 'TAmplitude' is a floating point number given in [dgC]
+- Header: 'MaxTDay' is a floating point number given in [yday]
+- Header: comments start with '#' followed by a whitespace
+- Header: 'Timestep' is not a valid tag in the header
+- Header: comments must not consist of more than 100 characters (including '#' and whitespace)
+- Header: the only restriction concerning the appearance of comments is that they appear before the end of header line
+- Header: comments are retained but may appear in subsequent Daisy weather files on another position in the  header
+- Header: header ends with end of header line. Thats a line where at least on the first character is '-'
+- Legend: the only valid separator in both legend lines is a tab 
+- Data section: comments must not appear in the data section
+- Data section: all data except for 'year', 'month', 'day' and 'hour' have to be floating point numbers
+- Data section: the only valid separator is a tab and not a whitespace
+- Data section: the only valid missing value indicator is 'NaN'
+- in principle all variables may be in the file even if they are not used by Daisy (like e.g. 'pressure')
+- the following variablenames have to be used in order to allow for the application of the Daisy-Fortran routines: 
+	'AirTemp', 
+	'RelHum', 
+	'Wind' (Windspeed) in [m/sec], 
+	'Winddir' (wind direction) in [dg]
+	'Sunshine' (sunshine duration either in hours per day or in minutes per hour), [min]
+	'Precip', 'GlobRad'
+
+AirTemp	RelHum	Wind	Precip	GlobRad
+year	month	mday	hour	dgC	%	m/s	mm/d	W/m^2
+
+
+3.) List of available routines
+- generate_dwf_files <- generates an initial dwf-file from e.g. a textfile with data
+- daisy_calc_daily_values  <- calculates daily values from hourly values
+
+
+4.) Description of routines
+
+1.1) generate_dwf_file
+generates a dwf file from e.g. a textfile. Because format of the input files may vary, this is just a framework to be used by a more or less advanced Fortran programmer to write a code tailored to the input files. Nevertheless an initial makefile is provided.
+
+4.1) daisy_calc_daily_values
+calculates daily values from hourly values. Data in dwf-file have to start with zero hour and have to end with the 23rd hour of the day.
+Aggregation is different for variables: ... 
+
